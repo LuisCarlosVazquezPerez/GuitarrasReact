@@ -6,14 +6,19 @@ import { db } from './data/db'
 
 function App() {
 
-  const [data, setData] = useState(db)
-  const [cart, setCart] = useState([]) //!ALMACENANDO TODO EN CART
+  const initialCart = () => {
+    const localStorageCart = localStorage.getItem('cart'); //? OBTENEMOS EL STRING
+    return localStorageCart ? JSON.parse(localStorageCart) : []  //? CONVERTIRLO EN ARREGLO
+  }
+
+  const [data] = useState(db)
+  const [cart, setCart] = useState(initialCart) 
 
   const MAX_ITEMS = 5
   const MIN_ITEMS = 1
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem('cart', JSON.stringify(cart)) //? EN EL LS NO GUARDA ARREGLOS, SOLO STRINGS (CONVERTIMOS A STRING)
   }, [cart])
 
 
